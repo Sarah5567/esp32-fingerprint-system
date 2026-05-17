@@ -11,7 +11,8 @@ enum class AuthResult {
     UNAUTHORIZED,
     LOW_CONFIDENCE,
     LOCKED,
-    ERROR
+    ERROR,
+    NO_INPUT  // No finger detected - not a failure
 };
 
 struct BiometricResult {

@@ -15,6 +15,12 @@ BiometricResult FingerprintService::authenticate() {
     RawMatchResult raw = sensor_.scan();
     ParsedScanResult parsed = SensorParser::parseScanResult(raw);
 
+    // 🔹 No finger detected - NOT a failure, just waiting for input
+    if (parsed.status == ScanStatus::NO_FINGER) {
+        return {AuthResult::NO_INPUT, -1, 0};
+    }
+
+    // 🔹 Any other non-OK status IS a failure (communication, image errors, etc)
     if (parsed.status != ScanStatus::OK) {
         registerFailure();
         return {AuthResult::ERROR, -1, 0};
